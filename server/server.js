@@ -2,7 +2,8 @@ const path = require('path'),
   http = require('http'),
   express = require('express'),
   hbs = require('handlebars'),
-  socketIO = require('socket.io');
+  socketIO = require('socket.io'),
+  {generateMessage} = require('./utils/message.js');
 
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
@@ -26,13 +27,10 @@ io.on("connection", function(socket) {
   });
 
 
-  socket.on("createMessage", function(message) {
+  socket.on("createMessage", function(message, callback) {
     console.log("createMessage", message);
-    io.emit("newMessage", {
-      from: message.from,
-      text: message.text,
-      createdAt: new Date().getTime()
-    });
+    io.emit("newMessage", generateMessage(message.from, message.text));
+    callback("This is from the server");
     // socket.broadcast.emit("newMessage", {
     //   from: message.from,
     //   text: message.text,
