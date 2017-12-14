@@ -9,7 +9,7 @@ socket.on("disconnect", function() {
 socket.on("newMessage", function(message){
   console.log("New message", message);
   var li = jQuery('<li></li>');
-  li.text(`${message.from}: ${message.text}`);
+  li.text(`${message.from} (${message.createdAt}): ${message.text}`);
   jQuery('#messages').append(li);
 });
 //
@@ -23,7 +23,7 @@ socket.on("newMessage", function(message){
 socket.on('newLocationMessage', function(message){
   var li = jQuery('<li></li>');
   var a = jQuery('<a target="_blank">My current location</a>');
-  li.text(`${message.from}: `);
+  li.text(`${message.from} (${message.createdAt}): `);
   a.attr('href', message.url);
   li.append(a);
   jQuery('#messages').append(li);
@@ -33,7 +33,7 @@ var messageTextbox = jQuery('[name=message]');
 jQuery('#message-form').on('submit', function(e){
   e.preventDefault();
   socket.emit('createMessage', {
-    from: 'user',
+    from: 'Natman',
     text:messageTextbox.val()
   }, function(){
     messageTextbox.val("");

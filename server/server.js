@@ -3,6 +3,7 @@ const path = require('path'),
   express = require('express'),
   hbs = require('handlebars'),
   socketIO = require('socket.io'),
+  moment = require('moment'),
   {generateMessage, generateLocationMessage} = require('./utils/message.js');
 
 const publicPath = path.join(__dirname, '../public');
@@ -40,5 +41,5 @@ io.on("connection", function(socket) {
 });
 
 server.listen(port, () => {
-  console.log(`Server started at port: ${port} at time: ${Date.now()}`);
+  console.log('Server avviato: oggi è ' + moment().locale('it').format('dddd') + ' ' + moment().locale('it').format('DD MMMM YYYY') + ' e sono le ore ' + moment().format('h:mm:ss a'));
 });
